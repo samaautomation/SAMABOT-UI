@@ -299,6 +299,102 @@ def toggle_simulation():
         "message": f"Modo simulación {'activado' if simulation_mode else 'desactivado'}"
     })
 
+@app.route('/api/samita/chat', methods=['POST'])
+def samita_chat():
+    """Endpoint para chat con SAMITA AI usando Ollama"""
+    try:
+        data = request.get_json()
+        message = data.get('message', '')
+        
+        if not message:
+            return jsonify({
+                "success": False,
+                "error": "Mensaje requerido"
+            }), 400
+        
+        # Importar subprocess para ejecutar Ollama
+        import subprocess
+        import json
+        
+        # Preparar el prompt para SAMITA
+        prompt = f"""Eres SAMITA, un asistente de IA industrial especializado en sistemas PLC Siemens S7-1200.
+
+CONTEXTO DEL SISTEMA:
+- PLC Siemens S7-1200 conectado en 192.168.1.5
+- Sistema SAMABOT Industrial
+- Monitoreo de entradas y salidas digitales
+- Modo: {'Simulación' if simulation_mode else 'Real'}
+
+INSTRUCCIONES:
+1. Responde de manera técnica y profesional en español
+2. Si te preguntan sobre el PLC, menciona el estado de conexión
+3. Si te preguntan sobre el sistema, explica que es SAMABOT Industrial
+4. Mantén respuestas concisas y útiles
+5. Si no entiendes la pregunta, pide aclaración
+
+Pregunta del usuario: {message}
+
+Responde como SAMITA:"""
+        
+        try:
+            # Ejecutar Ollama de forma más simple
+            result = subprocess.run([
+                'ollama', 'run', 'samita-es', prompt
+            ], capture_output=True, text=True, timeout=120)
+            
+            if result.returncode == 0 and result.stdout.strip():
+                response = result.stdout.strip()
+                # Limpiar la respuesta si es muy larga
+                if len(response) > 800:
+                    response = response[:800] + "..."
+                
+                return jsonify({
+                    "success": True,
+                    "response": response,
+                    "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "model": "samita-es"
+                })
+            else:
+                logger.error(f"Error en Ollama: {result.stderr}")
+                # Respuesta de fallback
+                fallback_responses = [
+                    "¡Hola! Soy SAMITA, tu asistente de IA industrial. Estoy aquí para ayudarte con cualquier pregunta sobre sistemas PLC Siemens.",
+                    "Hola, soy SAMITA. Puedo ayudarte con información sobre PLCs Siemens, programación, diagnóstico y más.",
+                    "¡Hola! Soy SAMITA, especialista en sistemas industriales. ¿En qué puedo ayudarte hoy?",
+                    "Hola, soy tu asistente SAMITA. Estoy listo para ayudarte con consultas sobre sistemas PLC."
+                ]
+                import random
+                fallback_response = random.choice(fallback_responses)
+                
+                return jsonify({
+                    "success": True,
+                    "response": fallback_response,
+                    "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "model": "samita-es (fallback)"
+                })
+                
+        except subprocess.TimeoutExpired:
+            return jsonify({
+                "success": False,
+                "response": "SAMITA está ocupado procesando tu solicitud. Intenta de nuevo en unos momentos.",
+                "error": "timeout"
+            })
+        except Exception as e:
+            logger.error(f"Error ejecutando Ollama: {e}")
+            return jsonify({
+                "success": False,
+                "response": "Error interno en SAMITA. Verifica la configuración de Ollama.",
+                "error": str(e)
+            })
+            
+    except Exception as e:
+        logger.error(f"Error en chat endpoint: {e}")
+        return jsonify({
+            "success": False,
+            "response": "Error en la comunicación con SAMITA.",
+            "error": str(e)
+        }), 500
+
 # ---------------- EJECUCIÓN ----------------
 
 if __name__ == "__main__":

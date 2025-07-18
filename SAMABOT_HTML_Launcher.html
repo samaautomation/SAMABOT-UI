@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMABOT Industrial - Launcher</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+        }
+        
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .launch-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .launch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9em;
+        }
+        
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">SAMABOT</div>
+        <div class="subtitle">Sistema de Monitoreo Industrial con IA</div>
+        <div class="subtitle">ING. SERGIO M – #SAMAKER</div>
+        
+        <a href="http://localhost:3000" class="launch-btn" onclick="showLoading()">
+            🚀 Abrir SAMABOT
+        </a>
+        
+        <a href="http://localhost:8000/api/plc/status" class="launch-btn">
+            📊 Ver API Status
+        </a>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Iniciando SAMABOT...</p>
+        </div>
+        
+        <div class="status">
+            <strong>URLs de Acceso:</strong><br>
+            • Panel Principal: <a href="http://localhost:3000" style="color: #ffd700;">http://localhost:3000</a><br>
+            • API Backend: <a href="http://localhost:8000" style="color: #ffd700;">http://localhost:8000</a><br>
+            • Status PLC: <a href="http://localhost:8000/api/plc/status" style="color: #ffd700;">http://localhost:8000/api/plc/status</a>
+        </div>
+    </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            
+            // Verificar si el servicio está disponible
+            setTimeout(() => {
+                fetch('http://localhost:3000')
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('SAMABOT está funcionando correctamente');
+                        }
+                    })
+                    .catch(error => {
+                        console.log('SAMABOT no está disponible, intentando iniciar...');
+                        // Aquí podrías agregar lógica para iniciar los servicios
+                    });
+            }, 2000);
+        }
+        
+        // Auto-redirección después de 3 segundos
+        setTimeout(() => {
+            window.location.href = 'http://localhost:3000';
+        }, 3000);
+    </script>
+</body>
+</html> 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 
 interface Message {
   id: string;
@@ -9,7 +9,7 @@ interface Message {
   timestamp: Date;
 }
 
-export default function SamitaPanel() {
+export default function SimpleSamitaPanel() {
   const [messages, setMessages] = useState<Message[]>([
     { 
       id: '1',
@@ -20,15 +20,6 @@ export default function SamitaPanel() {
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   const sendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
@@ -101,7 +92,7 @@ export default function SamitaPanel() {
       </div>
       
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto space-y-4 mb-6 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+      <div className="flex-1 overflow-y-auto space-y-4 mb-6">
         {messages.map((msg) => (
           <div key={msg.id} className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl shadow-lg ${
@@ -130,7 +121,6 @@ export default function SamitaPanel() {
             </div>
           </div>
         )}
-        <div ref={messagesEndRef} />
       </div>
       
       {/* Input Area */}
@@ -145,9 +135,6 @@ export default function SamitaPanel() {
             className="w-full bg-gray-800 text-white px-4 py-3 rounded-xl border border-gray-600 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 placeholder-gray-400"
             disabled={isLoading}
           />
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-          </div>
         </div>
         <button
           onClick={sendMessage}

@@ -8,7 +8,7 @@ interface PLCData {
   simulation_mode: boolean;
 }
 
-export default function PLCStatus() {
+export default function SimplePLCStatus() {
   const [plcData, setPlcData] = useState<PLCData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
