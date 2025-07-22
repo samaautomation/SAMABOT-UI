@@ -220,3 +220,7 @@ jetson_samabot_completo.tar.gz
 *.temp jetson_files.tar.xz
 jetson_files.tar.xz
 jetson_files.tar.xz
+*.tar.xz
+*.tar.gz
+*.zip
+jetson_files1.tar.xz
