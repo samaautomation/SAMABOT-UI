@@ -1,4 +1,4 @@
-import * as React from "react";
+68import * as React from "react";
 import SamitaPanel from "../components/ui/SamitaPanel";
 
 export default function Home() {

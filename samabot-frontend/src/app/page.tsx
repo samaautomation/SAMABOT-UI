@@ -9,9 +9,9 @@ const SamitaPanel = dynamic(() => import("../components/ui/SimpleSamitaPanel"), 
   </div>
 });
 
-const PLCStatus = dynamic(() => import("../components/ui/SimplePLCStatus"), {
+const RealPLCPanel = dynamic(() => import("../components/ui/RealPLCPanel"), {
   loading: () => <div className="bg-gray-800 rounded-xl p-6 flex items-center justify-center">
-    <div className="text-gray-400">Cargando estado del PLC...</div>
+    <div className="text-gray-400">Cargando PLC Real...</div>
   </div>
 });
 
@@ -30,7 +30,7 @@ export default function Home() {
       {/* Contenido principal */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Panel de estado del PLC */}
+          {/* Panel de PLC Real */}
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-2xl border border-gray-700">
             <div className="p-6">
               <div className="flex items-center space-x-3 mb-6">
@@ -40,10 +40,10 @@ export default function Home() {
                   </svg>
                 </div>
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-                  Estado del PLC
+                  PLC Real - Siemens 1200
                 </h2>
               </div>
-              <PLCStatus />
+              <RealPLCPanel />
             </div>
           </div>
           
