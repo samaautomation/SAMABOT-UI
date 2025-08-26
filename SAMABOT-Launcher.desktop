@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SAMABOT Industrial
+Comment=Sistema de Monitoreo Avanzado con IA
+Exec=/home/samabot/samabot_complete_launcher.sh
+Icon=/home/samabot/samabot-icon.png
+Terminal=true
+Categories=Development;System;
+Keywords=industrial;plc;ai;monitoring;
+StartupNotify=true 

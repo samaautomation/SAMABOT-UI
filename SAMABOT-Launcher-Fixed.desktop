@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SAMABOT Industrial
+GenericName=SAMABOT
+Comment=Sistema de Monitoreo Avanzado con IA
+Exec=gnome-terminal --working-directory=/home/samabot -- bash -c "/home/samabot/samabot_complete_launcher.sh; exec bash"
+Icon=/home/samabot/samabot-icon.png
+Terminal=true
+TerminalOptions=--working-directory=/home/samabot
+Categories=Development;System;Utility;
+Keywords=industrial;plc;ai;monitoring;
+StartupNotify=true
+StartupWMClass=gnome-terminal-server 

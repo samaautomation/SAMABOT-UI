@@ -1,0 +1,220 @@
+@import "@fontsource/vt323/index.css";
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-900 text-gray-100 min-h-screen overflow-hidden font-mono;
+  font-family: 'VT323', monospace;
+}
+
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.font-press-start {
+  font-family: 'Press Start 2P', cursive;
+}
+
+@keyframes blink-caret {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blinking-cursor {
+  animation: blink-caret 1s step-end infinite;
+  color: #c084fc;
+}
+
+.blinking-cursor-blue {
+  animation: blink-caret 1s step-end infinite;
+  color: #60a5fa;
+}
+
+.blinking-ellipsis {
+  animation: blink-caret 1s step-end infinite;
+  color: #60a5fa;
+}
+
+@keyframes blink-title {
+  0%, 100% { color: #60a5fa; text-shadow: 0 0 5px #60a5fa; }
+  50% { color: #3b82f6; text-shadow: 0 0 8px #3b82f6; }
+}
+
+.blinking-title {
+  animation: blink-title 2s ease-in-out infinite;
+}
+
+/* Custom scrollbar styles for textarea */
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: #60a5fa;
+  border-radius: 4px;
+  border: 1px solid #3b82f6;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+  box-shadow: 0 0 4px rgba(59, 130, 246, 0.6);
+}
+
+@keyframes glitch-effect {
+  0% {
+    clip-path: inset(45% 0 50% 0);
+    transform: translate(-5px, 0);
+  }
+  10% {
+    clip-path: inset(20% 0 70% 0);
+    transform: translate(5px, 0);
+  }
+  20% {
+    clip-path: inset(85% 0 5% 0);
+    transform: translate(-3px, 2px);
+  }
+  30% {
+    clip-path: inset(5% 0 90% 0);
+    transform: translate(3px, -2px);
+  }
+  40% {
+    clip-path: inset(50% 0 45% 0);
+    transform: translate(-4px, 1px);
+  }
+  50% {
+    clip-path: inset(70% 0 10% 0);
+    transform: translate(4px, -1px);
+  }
+  60% {
+    clip-path: inset(30% 0 65% 0);
+    transform: translate(-2px, 2px);
+  }
+  70% {
+    clip-path: inset(0 0 100% 0);
+    transform: translate(2px, -2px);
+  }
+  80% {
+    clip-path: inset(75% 0 15% 0);
+    transform: translate(-5px, 0);
+  }
+  90% {
+    clip-path: inset(10% 0 80% 0);
+    transform: translate(5px, 0);
+  }
+  100% {
+    clip-path: inset(55% 0 40% 0);
+    transform: translate(0);
+  }
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0A1A0A; /* bg-crt-bg */
+  overflow: hidden;
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -2px 0 #ff00c1;
+  animation: glitch-effect 2s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+  animation: glitch-effect 3s infinite linear alternate-reverse;
+}
+
+@layer components {
+  .arcade-button {
+    @apply w-full px-16 py-8 bg-crt-bg border-4 border-crt-green rounded-2xl cursor-pointer transition-all duration-150 ease-in-out;
+    @apply shadow-[0_10px_0_#004d00,0_15px_20px_rgba(0,0,0,0.4)];
+  }
+  .arcade-button:hover {
+    @apply bg-crt-green-dark shadow-[0_6px_0_#004d00,0_10px_15px_rgba(0,0,0,0.3)];
+  }
+  .arcade-button:active {
+    @apply bg-crt-green shadow-[inset_0_6px_8px_rgba(0,0,0,0.6)] translate-y-2;
+  }
+
+  .arcade-button-text {
+    @apply font-press-start text-5xl uppercase text-crt-green transition-colors duration-200 block text-center relative;
+    @apply [text-shadow:0_0_20px_#7CFC00];
+  }
+  .arcade-button:hover .arcade-button-text {
+    @apply text-white;
+  }
+  .arcade-button:active .arcade-button-text {
+    @apply text-crt-bg;
+  }
+
+  .arcade-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2.8rem;
+    letter-spacing: 0.25em;
+    color: #60a5fa;
+    text-transform: uppercase;
+    text-shadow:
+      0 0 8px #60a5fa,
+      0 0 24px #3b82f6,
+      2px 2px 0 #000,
+      0 4px 24px #3b82f6;
+    line-height: 1.1;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0.2em 0.5em;
+    user-select: none;
+  }
+
+  .arcade-title-orbitron {
+    font-family: 'Orbitron', 'Press Start 2P', 'VT323', monospace;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 8px #2563eb, 0 0 16px #000;
+    letter-spacing: 0.08em;
+    display: inline-block;
+    transform: scaleY(1.6);
+    line-height: 1;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+  }
+
+  .arcade-title-glow {
+    position: relative;
+  }
+  .arcade-title-glow::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    color: #fff;
+    opacity: 0.35;
+    filter: blur(2.5px) brightness(1.7);
+    text-shadow: 0 0 12px #fff, 0 0 24px #fff;
+    pointer-events: none;
+  }
+} 
